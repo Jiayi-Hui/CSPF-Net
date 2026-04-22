@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # CSPF-Net Text Prototype
 
 This repository now includes a lightweight text-side implementation aligned with the proposal:
@@ -58,3 +59,7 @@ For GPU runs on CUDA machines such as RunPod, pass `--device cuda`. If you use `
 - `ASAP2` on Hugging Face may require access approval depending on the dataset mirror you use.
 - The TOCSIN part here follows the paper's high-level idea rather than reproducing the full original codebase.
 - The current repo does not have the required Python dependencies installed yet; see `requirements.txt`.
+=======
+# CSPF-Net
+Detector for AI-generated text
+>>>>>>> da4ebde710bd0b65af4bf4872fefd72cab0d992e
