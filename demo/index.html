@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSPF-Net Demo Console</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="background-grid"></div>
+  <div class="background-glow glow-a"></div>
+  <div class="background-glow glow-b"></div>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>AI Forensics Console</h1>
+      </div>
+      <div class="hero-status">
+        <div class="status-card">
+          <span class="status-label">Model</span>
+          <strong id="model-status">GPT-2 + CSPF Fusion</strong>
+        </div>
+        <div class="status-card">
+          <span class="status-label">Device</span>
+          <strong id="device-status">CUDA Ready</strong>
+        </div>
+        <div class="status-card">
+          <span class="status-label">Demo Mode</span>
+          <strong id="demo-mode-status">Frontend Prototype</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel analyzer-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="section-kicker">Live Analysis</p>
+          <h2>Multimodal intake and text-side forensic analysis</h2>
+        </div>
+        <div class="pill-row">
+          <span class="pill">Sentence heatmap</span>
+          <span class="pill">Feature cards</span>
+          <span class="pill">Audience friendly</span>
+          <span class="pill">Multimodal ready</span>
+        </div>
+      </div>
+
+      <div class="mode-tabs" id="mode-tabs">
+        <button class="mode-tab active" data-mode="text">Text</button>
+        <button class="mode-tab" data-mode="image">Image</button>
+        <button class="mode-tab" data-mode="audio">Audio</button>
+        <button class="mode-tab" data-mode="video">Video</button>
+      </div>
+
+      <div class="analyzer-grid">
+        <div class="input-card">
+          <div class="input-mode active" data-panel="text">
+            <label for="text-input">Text Sample</label>
+            <textarea id="text-input" rows="11"></textarea>
+
+            <div class="action-row">
+              <button id="analyze-btn" class="primary-btn">Analyze Text</button>
+              <button id="shuffle-btn" class="ghost-btn">Load Random Sample</button>
+            </div>
+
+            <div class="sample-list">
+              <button class="sample-chip" data-sample="human">Human-style sample</button>
+              <button class="sample-chip" data-sample="ai">AI-style sample</button>
+              <button class="sample-chip" data-sample="mixed">Mixed sample</button>
+            </div>
+          </div>
+
+          <div class="input-mode" data-panel="image">
+            <label for="image-input">Image Evidence</label>
+            <input id="image-input" class="file-input" type="file" accept="image/*" />
+            <div class="upload-card">
+              <p class="upload-title">Image modality placeholder</p>
+              <p id="image-status" class="upload-status">No image uploaded. UI is ready for future image-forensics integration.</p>
+            </div>
+          </div>
+
+          <div class="input-mode" data-panel="audio">
+            <label for="audio-input">Audio Evidence</label>
+            <input id="audio-input" class="file-input" type="file" accept="audio/*" />
+            <div class="upload-card">
+              <p class="upload-title">Audio modality placeholder</p>
+              <p id="audio-status" class="upload-status">No audio uploaded. UI is ready for future speech / deepfake audio checks.</p>
+            </div>
+          </div>
+
+          <div class="input-mode" data-panel="video">
+            <label for="video-url-input">Video Evidence</label>
+            <input
+              id="video-url-input"
+              class="url-input"
+              type="url"
+              placeholder="Paste a Xiaohongshu video URL"
+            />
+            <div class="action-row">
+              <button id="inspect-video-btn" class="primary-btn">Inspect Video Link</button>
+              <input id="video-input" class="file-input inline-file-input" type="file" accept="video/*" />
+            </div>
+            <div class="upload-card">
+              <p class="upload-title">Video decomposition workflow</p>
+              <p id="video-status" class="upload-status">Paste a Xiaohongshu link to simulate frame extraction, audio separation, and subtitle analysis.</p>
+            </div>
+            <div class="decomposition-card">
+              <div class="mini-heading">
+                <h4>Video Evidence Split</h4>
+                <span>Practical workaround without a dedicated video model</span>
+              </div>
+              <div class="decomposition-grid">
+                <article class="decomposition-box" id="frame-box">
+                  <span class="stat-label">Frame Track</span>
+                  <strong>Waiting</strong>
+                  <p>Extract representative frames and send them to the image-forensics branch.</p>
+                </article>
+                <article class="decomposition-box" id="voice-box">
+                  <span class="stat-label">Audio Track</span>
+                  <strong>Waiting</strong>
+                  <p>Separate the soundtrack for speech and synthetic-audio inspection.</p>
+                </article>
+                <article class="decomposition-box" id="subtitle-box">
+                  <span class="stat-label">Subtitle Track</span>
+                  <strong>Waiting</strong>
+                  <p>Run OCR or ASR and feed the recovered text into the text detector.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="results-card">
+          <div class="results-header">
+            <div>
+              <p class="section-kicker">Document Verdict</p>
+              <h3 id="verdict-title">Likely Human</h3>
+            </div>
+            <div class="score-ring" id="score-ring">
+              <span id="score-value">34%</span>
+            </div>
+          </div>
+
+          <div class="meter-block">
+            <div class="meter-labels">
+              <span>Human-written</span>
+              <span>AI-generated</span>
+            </div>
+            <div class="meter-track">
+              <div id="meter-fill" class="meter-fill"></div>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <article class="stat-card">
+              <span class="stat-label">Confidence</span>
+              <strong id="confidence-value">82%</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">AI Sentence Ratio</span>
+              <strong id="ratio-value">1 / 4</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Primary Cue</span>
+              <strong id="cue-value">Varied syntax</strong>
+            </article>
+          </div>
+
+          <div class="heatmap-card">
+            <div class="mini-heading">
+              <h4>Sentence Heatmap</h4>
+              <span>Redder means more suspicious</span>
+            </div>
+            <div id="sentence-list" class="sentence-list"></div>
+          </div>
+
+          <div class="feature-card">
+            <div class="mini-heading">
+              <h4>Feature Signals</h4>
+              <span>Designed for classroom explanation</span>
+            </div>
+            <div class="feature-grid" id="feature-grid"></div>
+          </div>
+
+          <div class="feature-card modality-card">
+            <div class="mini-heading">
+              <h4>Modality Intake</h4>
+              <span>Shows which evidence streams the interface can accept</span>
+            </div>
+            <div class="modality-grid" id="modality-grid">
+              <article class="modality-box active">
+                <span class="stat-label">Text</span>
+                <strong>Ready</strong>
+                <p>Connected to the demo analyzer.</p>
+              </article>
+              <article class="modality-box" id="image-box">
+                <span class="stat-label">Image</span>
+                <strong>Standby</strong>
+                <p>No file received yet.</p>
+              </article>
+              <article class="modality-box" id="audio-box">
+                <span class="stat-label">Audio</span>
+                <strong>Standby</strong>
+                <p>No file received yet.</p>
+              </article>
+              <article class="modality-box" id="video-box">
+                <span class="stat-label">Video</span>
+                <strong>Standby</strong>
+                <p>Accepts URL-based decomposition plans.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel game-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="section-kicker">Audience Game</p>
+          <h2>Human or Machine?</h2>
+        </div>
+        <div class="pill-row">
+          <span class="pill">Live guessing</span>
+          <span class="pill">Reveal mode</span>
+        </div>
+      </div>
+
+      <div class="game-grid">
+        <div class="game-card">
+          <div class="mini-heading">
+            <h4>Current Challenge</h4>
+            <span id="round-counter">Case 1 / 4</span>
+          </div>
+          <blockquote id="guess-text" class="guess-text"></blockquote>
+          <div class="guess-actions">
+            <button id="guess-human" class="secondary-btn">Guess Human</button>
+            <button id="guess-ai" class="secondary-btn danger-btn">Guess AI</button>
+            <button id="reveal-btn" class="ghost-btn">Reveal Answer</button>
+            <button id="next-btn" class="ghost-btn">Next Case</button>
+          </div>
+        </div>
+
+        <div class="game-sidebar">
+          <article class="score-card">
+            <span class="stat-label">Audience Score</span>
+            <strong id="game-score">0 / 0</strong>
+          </article>
+          <article class="score-card">
+            <span class="stat-label">Answer</span>
+            <strong id="answer-label">Hidden</strong>
+          </article>
+          <article class="score-card explanation-card">
+            <span class="stat-label">Why</span>
+            <p id="answer-reason">Ask the room to vote first, then reveal the explanation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -4,4 +4,5 @@ __pycache__/
 .DS_Store
 artifacts/
 hf_cache/
+.hf_cache/
 STAT8307_Group_Project_Multi-Modal_AI_Forensics.docx
