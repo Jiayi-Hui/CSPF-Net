@@ -38,7 +38,7 @@ print(result.document_probability, result.ai_contribution_ratio)
   --prob-model-name gpt2 \
   --device cuda \
   --prob-batch-size 16 \
-  --hf-cache-dir /kaggle/working/hf_cache \
+  --hf-cache-dir /workspace/huggingface \
   --output-dir artifacts/raid_stacking
 ```
 
@@ -49,7 +49,9 @@ For `RAID`, the common field mapping is:
 
 Run `.venv/bin/python check_env.py` to verify the environment before moving to Kaggle.
 
-If Kaggle internet is disabled, pre-download the dataset/model into `--hf-cache-dir` and add `--local-files-only`.
+If internet is disabled, pre-download the dataset/model into `--hf-cache-dir` and add `--local-files-only`.
+
+If you do not pass `--hf-cache-dir`, the scripts default to `HF_HOME` when it is set, otherwise `/workspace/huggingface`.
 
 For GPU runs on CUDA machines such as RunPod, pass `--device cuda`. If you use `--model-type mlp`, both the GPT-style feature extractor and the MLP will move to that device.
 

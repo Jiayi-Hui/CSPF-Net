@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 
-from cspf_text import CSPFTextPipeline, load_text_dataset
+from cspf_text import CSPFTextPipeline, configure_hf_cache, load_text_dataset
 from cspf_text.evaluation import (
     coauthorship_metrics,
     document_level_metrics,
@@ -102,6 +102,7 @@ def aggregate_runs(run_results: list[dict[str, float]]) -> dict[str, float]:
 
 def main() -> None:
     args = parse_args()
+    args.hf_cache_dir = configure_hf_cache(args.hf_cache_dir)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     seeds = [int(item.strip()) for item in args.seeds.split(",") if item.strip()]

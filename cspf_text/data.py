@@ -23,6 +23,7 @@ DATASET_ALIASES = {
 
 AI_LABEL = 1
 HUMAN_LABEL = 0
+DEFAULT_HF_CACHE_DIR = "/workspace/huggingface"
 
 
 @dataclass
@@ -65,6 +66,29 @@ class DatasetBundle:
     rows: list[dict]
     documents: list[DocumentExample] = field(default_factory=list)
     sentence_examples: list[SentenceExample] = field(default_factory=list)
+
+
+def resolve_hf_cache_dir(cache_dir: str | None = None) -> str:
+    if cache_dir:
+        return str(Path(cache_dir).expanduser())
+    return str(Path(os.environ.get("HF_HOME", DEFAULT_HF_CACHE_DIR)).expanduser())
+
+
+def configure_hf_cache(cache_dir: str | None = None) -> str:
+    cache_path = Path(resolve_hf_cache_dir(cache_dir))
+    datasets_path = cache_path / "datasets"
+    hub_path = cache_path / "hub"
+
+    cache_path.mkdir(parents=True, exist_ok=True)
+    datasets_path.mkdir(parents=True, exist_ok=True)
+    hub_path.mkdir(parents=True, exist_ok=True)
+
+    os.environ["XDG_CACHE_HOME"] = str(cache_path)
+    os.environ["HF_HOME"] = str(cache_path)
+    os.environ["HF_DATASETS_CACHE"] = str(datasets_path)
+    os.environ["HF_HUB_CACHE"] = str(hub_path)
+    os.environ["HUGGINGFACE_HUB_CACHE"] = str(hub_path)
+    return str(cache_path)
 
 
 def _infer_text_column(row: dict) -> str:
@@ -423,6 +447,7 @@ def load_text_dataset(
     except ImportError as exc:
         raise ImportError("data.py requires `datasets`.") from exc
 
+    cache_dir = configure_hf_cache(cache_dir)
     resolved_id = dataset_id or DATASET_ALIASES.get(name.lower(), name)
     path = Path(resolved_id)
     if path.exists():
@@ -480,16 +505,10 @@ def _load_stream_rows(
     from datasets import load_dataset
     from datasets import config as datasets_config
 
-    if cache_dir:
-        cache_path = Path(cache_dir)
-        cache_path.mkdir(parents=True, exist_ok=True)
-        os.environ["XDG_CACHE_HOME"] = str(cache_path)
-        os.environ["HF_HOME"] = str(cache_path)
-        os.environ["HF_DATASETS_CACHE"] = str(cache_path / "datasets")
-        os.environ["HF_HUB_CACHE"] = str(cache_path / "hub")
-        os.environ["HUGGINGFACE_HUB_CACHE"] = str(cache_path / "hub")
-        datasets_config.HF_DATASETS_CACHE = str(cache_path / "datasets")
-        datasets_config.DOWNLOADED_DATASETS_PATH = Path(cache_path / "datasets" / "downloads")
+    cache_dir = configure_hf_cache(cache_dir)
+    cache_path = Path(cache_dir)
+    datasets_config.HF_DATASETS_CACHE = str(cache_path / "datasets")
+    datasets_config.DOWNLOADED_DATASETS_PATH = Path(cache_path / "datasets" / "downloads")
 
     dataset = load_dataset(
         dataset_id,
