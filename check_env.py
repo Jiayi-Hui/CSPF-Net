@@ -5,7 +5,7 @@ import json
 import sys
 
 
-MODULES = ["datasets", "nltk", "numpy", "pandas", "sklearn", "torch", "transformers"]
+MODULES = ["datasets", "matplotlib", "nltk", "numpy", "pandas", "sklearn", "torch", "transformers"]
 
 
 def main() -> None:
