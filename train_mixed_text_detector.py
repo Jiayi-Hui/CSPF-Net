@@ -23,7 +23,8 @@ from cspf_text.run_tracking import RunTracker
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train a mixed-source binary text detector.")
-    parser.add_argument("--raid-sample-size", type=int, default=36000)
+    parser.add_argument("--hc3-reborn-sample-size", type=int, default=36000)
+    parser.add_argument("--hc3-reborn-dataset-id", default=None)
     parser.add_argument("--asap2-sample-size", type=int, default=None)
     parser.add_argument("--ag-news-sample-size", type=int, default=9000)
     parser.add_argument("--arxiv-sample-size", type=int, default=9000)
@@ -123,7 +124,8 @@ def main() -> None:
             cache_dir=args.hf_cache_dir,
             context_window=args.context_window,
             seed=args.seed,
-            raid_sample_size=args.raid_sample_size,
+            ai_sample_size=args.hc3_reborn_sample_size,
+            ai_dataset_id=args.hc3_reborn_dataset_id,
             asap2_sample_size=args.asap2_sample_size,
             ag_news_sample_size=args.ag_news_sample_size,
             arxiv_sample_size=args.arxiv_sample_size,
@@ -217,13 +219,13 @@ def main() -> None:
         metadata = {
             "task": "mixed_source_binary_detection",
             "sources": {
-                "raid_label": 1,
+                "hc3_reborn_label": 1,
                 "asap2_label": 0,
                 "ag_news_label": 0,
                 "arxiv_label": 0,
             },
             "sample_sizes": {
-                "raid": args.raid_sample_size,
+                "hc3_reborn": args.hc3_reborn_sample_size,
                 "asap2": args.asap2_sample_size or "all_available",
                 "ag_news": args.ag_news_sample_size,
                 "arxiv": args.arxiv_sample_size,

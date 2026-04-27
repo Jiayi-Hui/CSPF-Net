@@ -22,7 +22,7 @@ from cspf_text.run_tracking import RunTracker
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train CSPF-Net text detector.")
-    parser.add_argument("--dataset", default="raid", help="Dataset alias or Hugging Face dataset id.")
+    parser.add_argument("--dataset", default="hc3_reborn", help="Dataset alias or Hugging Face dataset id.")
     parser.add_argument("--dataset-id", default=None, help="Override Hugging Face dataset id.")
     parser.add_argument("--train-split", default="train")
     parser.add_argument("--eval-split", default=None)

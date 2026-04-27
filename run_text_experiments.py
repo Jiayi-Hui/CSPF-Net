@@ -21,10 +21,10 @@ from cspf_text.modeling import TorchMLPClassifier
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run text-only CSPF-Net experiments.")
-    parser.add_argument("--train-dataset", default="raid")
+    parser.add_argument("--train-dataset", default="hc3_reborn")
     parser.add_argument("--train-dataset-id", default=None)
     parser.add_argument("--train-split", default="train")
-    parser.add_argument("--eval-datasets", default="raid:validation,asap2:train,haco-det:train")
+    parser.add_argument("--eval-datasets", default="hc3_reborn:test,asap2:test,haco-det:train")
     parser.add_argument("--text-column", default=None)
     parser.add_argument("--label-column", default=None)
     parser.add_argument("--sample-size", type=int, default=None)

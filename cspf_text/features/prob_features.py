@@ -93,17 +93,28 @@ class ProbabilisticFeatureExtractor:
         }
 
     def transform_batch(self, texts: list[str]) -> list[dict[str, float]]:
-        self._lazy_load()
-        import torch
-
         if not texts:
             return []
 
+        normalized_texts = [text if isinstance(text, str) else "" for text in texts]
+        if not any(text.strip() for text in normalized_texts):
+            return [self._empty_features() for _ in normalized_texts]
+
+        self._lazy_load()
+        import torch
+
         features: list[dict[str, float]] = []
         for start in range(0, len(texts), self.batch_size):
-            batch_texts = texts[start : start + self.batch_size]
+            batch_texts = normalized_texts[start : start + self.batch_size]
+            non_empty_pairs = [(idx, text) for idx, text in enumerate(batch_texts) if text.strip()]
+            if not non_empty_pairs:
+                features.extend(self._empty_features() for _ in batch_texts)
+                continue
+
+            non_empty_indices = [idx for idx, _ in non_empty_pairs]
+            non_empty_texts = [text for _, text in non_empty_pairs]
             encoded = self._tokenizer(
-                batch_texts,
+                non_empty_texts,
                 return_tensors="pt",
                 truncation=True,
                 padding=True,
@@ -121,9 +132,11 @@ class ProbabilisticFeatureExtractor:
             token_log_probs = log_probs.gather(dim=-1, index=shifted_labels.unsqueeze(-1)).squeeze(-1)
             token_nll = -token_log_probs
 
-            for row_nll, row_mask in zip(token_nll, shifted_mask):
+            batch_features = [self._empty_features() for _ in batch_texts]
+            for feature_index, (row_nll, row_mask) in enumerate(zip(token_nll, shifted_mask)):
                 row_token_nll = row_nll[row_mask]
-                features.append(self._features_from_token_nll(row_token_nll))
+                batch_features[non_empty_indices[feature_index]] = self._features_from_token_nll(row_token_nll)
+            features.extend(batch_features)
 
         return features
 

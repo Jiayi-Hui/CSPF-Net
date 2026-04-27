@@ -10,7 +10,8 @@ from .utils import simple_sentence_split
 
 
 DATASET_ALIASES = {
-    "raid": "liamdugan/raid",
+    "hc3_reborn": "__HC3_REBORN__",
+    "hc3-reborn": "__HC3_REBORN__",
     "asap2": "kristyutsa/ASAP2",
     "asap_2": "kristyutsa/ASAP2",
     "ag_news": "ag_news",
@@ -24,6 +25,7 @@ DATASET_ALIASES = {
 AI_LABEL = 1
 HUMAN_LABEL = 0
 DEFAULT_HF_CACHE_DIR = "/workspace/huggingface"
+HC3_REBORN_ENV_VAR = "CSPF_HC3_REBORN_DATASET_ID"
 
 
 @dataclass
@@ -91,6 +93,24 @@ def configure_hf_cache(cache_dir: str | None = None) -> str:
     return str(cache_path)
 
 
+def resolve_dataset_id(name: str, dataset_id: str | None = None) -> str:
+    if dataset_id:
+        return dataset_id
+
+    alias = DATASET_ALIASES.get(name.lower(), name)
+    if alias != "__HC3_REBORN__":
+        return alias
+
+    env_dataset_id = os.environ.get(HC3_REBORN_ENV_VAR)
+    if env_dataset_id:
+        return env_dataset_id
+
+    raise ValueError(
+        "Dataset alias 'hc3_reborn' requires an explicit dataset source. "
+        f"Pass --dataset-id or set {HC3_REBORN_ENV_VAR} to a Hugging Face dataset id or local dataset path."
+    )
+
+
 def _infer_text_column(row: dict) -> str:
     for candidate in (
         "text",
@@ -156,6 +176,9 @@ def _normalize_label(value) -> int:
             "synthetic",
             "machine_written",
             "ai_generated",
+            "reborn",
+            "paraphrased_ai",
+            "rewritten_ai",
         }:
             return AI_LABEL
         if lowered in {"0", "human", "__label__human", "real", "authentic", "human_written"}:
@@ -448,7 +471,7 @@ def load_text_dataset(
         raise ImportError("data.py requires `datasets`.") from exc
 
     cache_dir = configure_hf_cache(cache_dir)
-    resolved_id = dataset_id or DATASET_ALIASES.get(name.lower(), name)
+    resolved_id = resolve_dataset_id(name, dataset_id=dataset_id)
     path = Path(resolved_id)
     if path.exists():
         suffix = path.suffix.lower()
@@ -542,8 +565,9 @@ def load_mixed_source_dataset(
     cache_dir: str | None = None,
     context_window: int = 1,
     seed: int = 42,
-    raid_split: str = "train",
-    raid_sample_size: int = 36_000,
+    ai_split: str = "train",
+    ai_sample_size: int = 36_000,
+    ai_dataset_id: str | None = None,
     asap2_split: str = "train",
     asap2_sample_size: int | None = None,
     ag_news_split: str = "train",
@@ -553,18 +577,20 @@ def load_mixed_source_dataset(
 ) -> DatasetBundle:
     rng = random.Random(seed)
 
-    raid_rows = _load_stream_rows(
-        dataset_id=DATASET_ALIASES["raid"],
-        split=raid_split,
-        sample_size=raid_sample_size,
+    ai_rows = _load_stream_rows(
+        dataset_id=resolve_dataset_id("hc3_reborn", dataset_id=ai_dataset_id),
+        split=ai_split,
+        sample_size=ai_sample_size,
         cache_dir=cache_dir,
         seed=seed,
-        predicate=lambda row: row.get("model") not in {None, "human"} and row.get("attack", "none") == "none",
-        text_key="generation",
-        extra_metadata={"label": AI_LABEL, "source_dataset": "raid", "document_label": AI_LABEL},
+        predicate=lambda row: _normalize_label(row.get("label", row.get("model", 1))) == AI_LABEL,
+        text_key=None,
+        extra_metadata={"source_dataset": "hc3_reborn"},
     )
-    for index, row in enumerate(raid_rows):
-        row["document_id"] = f"raid-{index}"
+    for index, row in enumerate(ai_rows):
+        row["label"] = AI_LABEL
+        row["document_label"] = AI_LABEL
+        row["document_id"] = f"hc3-reborn-{index}"
 
     asap2_rows = _load_stream_rows(
         dataset_id=DATASET_ALIASES["asap2"],
@@ -602,7 +628,7 @@ def load_mixed_source_dataset(
     for index, row in enumerate(arxiv_rows):
         row["document_id"] = f"arxiv-{index}"
 
-    rows = raid_rows + asap2_rows + ag_news_rows + arxiv_rows
+    rows = ai_rows + asap2_rows + ag_news_rows + arxiv_rows
     rng.shuffle(rows)
     return normalize_text_dataset(
         rows,
