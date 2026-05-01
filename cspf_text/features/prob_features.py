@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import math
 from dataclasses import dataclass, field
 
@@ -14,8 +15,11 @@ class ProbabilisticFeatureExtractor:
     device: str | None = None
     cache_dir: str | None = None
     local_files_only: bool = False
+    feature_cache_dir: str | None = None
     _tokenizer: object | None = field(default=None, init=False, repr=False)
     _model: object | None = field(default=None, init=False, repr=False)
+    _feature_cache: dict | None = field(default=None, init=False, repr=False)
+    _feature_cache_dirty: bool = field(default=False, init=False, repr=False)
 
     def _lazy_load(self) -> None:
         if self._tokenizer is not None and self._model is not None:
@@ -48,6 +52,34 @@ class ProbabilisticFeatureExtractor:
         device = self._resolve_device(torch)
         self.device = device
         self._model.to(device)
+
+    def _cache_key(self, text: str) -> str:
+        return hashlib.md5(f"{self.model_name}:{text}".encode("utf-8")).hexdigest()
+
+    def _load_feature_cache(self) -> None:
+        if self._feature_cache is not None:
+            return
+        self._feature_cache = {}
+        if self.feature_cache_dir is None:
+            return
+        import pickle
+        from pathlib import Path
+        cache_file = Path(self.feature_cache_dir) / f"{self.model_name.replace('/', '_')}.pkl"
+        if cache_file.exists():
+            with open(cache_file, "rb") as f:
+                self._feature_cache = pickle.load(f)
+
+    def _save_feature_cache(self) -> None:
+        if self.feature_cache_dir is None or not self._feature_cache_dirty:
+            return
+        import pickle
+        from pathlib import Path
+        cache_dir = Path(self.feature_cache_dir)
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        cache_file = cache_dir / f"{self.model_name.replace('/', '_')}.pkl"
+        with open(cache_file, "wb") as f:
+            pickle.dump(self._feature_cache, f)
+        self._feature_cache_dirty = False
 
     def _resolve_device(self, torch) -> str:
         if self.device is not None:
@@ -92,20 +124,13 @@ class ProbabilisticFeatureExtractor:
             "prob_first_last_nll_gap": first_last_gap,
         }
 
-    def transform_batch(self, texts: list[str]) -> list[dict[str, float]]:
-        if not texts:
-            return []
-
-        normalized_texts = [text if isinstance(text, str) else "" for text in texts]
-        if not any(text.strip() for text in normalized_texts):
-            return [self._empty_features() for _ in normalized_texts]
-
-        self._lazy_load()
+    def _run_gpt2_batch(self, texts: list[str]) -> list[dict[str, float]]:
+        """Run GPT-2 inference on a list of non-empty texts (no caching)."""
         import torch
 
         features: list[dict[str, float]] = []
         for start in range(0, len(texts), self.batch_size):
-            batch_texts = normalized_texts[start : start + self.batch_size]
+            batch_texts = texts[start : start + self.batch_size]
             non_empty_pairs = [(idx, text) for idx, text in enumerate(batch_texts) if text.strip()]
             if not non_empty_pairs:
                 features.extend(self._empty_features() for _ in batch_texts)
@@ -139,6 +164,39 @@ class ProbabilisticFeatureExtractor:
             features.extend(batch_features)
 
         return features
+
+    def transform_batch(self, texts: list[str]) -> list[dict[str, float]]:
+        if not texts:
+            return []
+
+        normalized_texts = [text if isinstance(text, str) else "" for text in texts]
+        if not any(text.strip() for text in normalized_texts):
+            return [self._empty_features() for _ in normalized_texts]
+
+        self._load_feature_cache()
+        keys = [self._cache_key(t) for t in normalized_texts]
+        results: list[dict[str, float] | None] = [self._feature_cache.get(k) for k in keys]
+
+        # Fill empty texts immediately; collect indices that need GPT-2
+        uncached_indices = []
+        for i, (text, result) in enumerate(zip(normalized_texts, results)):
+            if result is None:
+                if text.strip():
+                    uncached_indices.append(i)
+                else:
+                    results[i] = self._empty_features()
+
+        if uncached_indices:
+            self._lazy_load()
+            uncached_texts = [normalized_texts[i] for i in uncached_indices]
+            computed = self._run_gpt2_batch(uncached_texts)
+            for idx, feat in zip(uncached_indices, computed):
+                results[idx] = feat
+                self._feature_cache[keys[idx]] = feat
+                self._feature_cache_dirty = True
+            self._save_feature_cache()
+
+        return results
 
     def transform(self, text: str) -> dict[str, float]:
         return self.transform_batch([text])[0]

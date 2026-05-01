@@ -6,7 +6,7 @@ import numpy as np
 
 from .data import SentenceExample, build_sentence_dataset
 from .features import CohesionFeatureExtractor, ProbabilisticFeatureExtractor, StyleFeatureExtractor
-from .modeling import ProbabilityCalibrator, SklearnStackingDetector
+from .modeling import FeatureTokenTransformerClassifier, ProbabilityCalibrator
 from .utils import flatten_feature_dicts, simple_sentence_split, simple_word_tokenize
 
 
@@ -60,7 +60,7 @@ class CSPFTextPipeline:
     probabilistic_extractor: ProbabilisticFeatureExtractor = field(default_factory=ProbabilisticFeatureExtractor)
     style_extractor: StyleFeatureExtractor = field(default_factory=StyleFeatureExtractor)
     cohesion_extractor: CohesionFeatureExtractor = field(default_factory=CohesionFeatureExtractor)
-    model: object = field(default_factory=SklearnStackingDetector)
+    model: object = field(default_factory=FeatureTokenTransformerClassifier)
     context_window: int = 1
     use_context: bool = True
     calibrator: ProbabilityCalibrator | None = None
@@ -176,6 +176,8 @@ class CSPFTextPipeline:
     def fit_sentence_examples(self, examples: list[SentenceExample]) -> "CSPFTextPipeline":
         X = self.transform_sentence_examples(examples)
         y = [example.label for example in examples]
+        if hasattr(self.model, "set_feature_names"):
+            self.model.set_feature_names(self.feature_names_)
         self.model.fit(X, y)
         self.feature_baselines_ = np.mean(np.asarray(X), axis=0).tolist() if X else []
         return self

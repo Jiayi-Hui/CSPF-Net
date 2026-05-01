@@ -1,5 +1,7 @@
 from .calibration import ProbabilityCalibrator
-from .mlp_model import TorchMLPClassifier
-from .stacking_model import SklearnStackingDetector
+from .feature_transformer_model import FeatureTokenTransformerClassifier
 
-__all__ = ["ProbabilityCalibrator", "SklearnStackingDetector", "TorchMLPClassifier"]
+__all__ = [
+    "ProbabilityCalibrator",
+    "FeatureTokenTransformerClassifier",
+]

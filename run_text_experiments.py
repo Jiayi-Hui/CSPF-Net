@@ -16,7 +16,7 @@ from cspf_text.evaluation import (
     sentence_level_metrics,
 )
 from cspf_text.features import ProbabilisticFeatureExtractor
-from cspf_text.modeling import TorchMLPClassifier
+from cspf_text.modeling import FeatureTokenTransformerClassifier
 
 
 def parse_args() -> argparse.Namespace:
@@ -35,7 +35,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default=None)
     parser.add_argument("--hf-cache-dir", default=None)
     parser.add_argument("--local-files-only", action="store_true")
-    parser.add_argument("--model-type", choices=("stacking", "mlp"), default="stacking")
+    parser.add_argument("--model-type", choices=("cspf_transformer",), default="cspf_transformer")
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--seeds", default="13,21,42")
     parser.add_argument("--attacks", default="synonym_substitution,punctuation_strip,sentence_shuffle,character_noise,context_truncation")
@@ -66,11 +66,8 @@ def build_pipeline(args: argparse.Namespace, train_bundle) -> CSPFTextPipeline:
             local_files_only=args.local_files_only,
         ),
         context_window=args.context_window,
+        model=FeatureTokenTransformerClassifier(device=args.device),
     )
-    if args.model_type == "mlp":
-        warmup_examples = train_bundle.sentence_examples[:1] or train_bundle.sentence_examples
-        feature_dim = len(pipeline.transform_sentence_examples(warmup_examples)[0])
-        pipeline.model = TorchMLPClassifier(input_dim=feature_dim, device=args.device)
     return pipeline
 
 

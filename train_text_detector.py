@@ -15,13 +15,13 @@ from cspf_text.evaluation import (
     save_experiment_outputs,
     sentence_level_metrics,
 )
-from cspf_text.modeling import TorchMLPClassifier
+from cspf_text.modeling import FeatureTokenTransformerClassifier
 from cspf_text.features import ProbabilisticFeatureExtractor
 from cspf_text.run_tracking import RunTracker
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train CSPF-Net text detector.")
+    parser = argparse.ArgumentParser(description="Train CSPF-Net CSPF-feature transformer text detector.")
     parser.add_argument("--dataset", default="hc3_reborn", help="Dataset alias or Hugging Face dataset id.")
     parser.add_argument("--dataset-id", default=None, help="Override Hugging Face dataset id.")
     parser.add_argument("--train-split", default="train")
@@ -30,7 +30,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--label-column", default=None)
     parser.add_argument("--sample-size", type=int, default=None)
     parser.add_argument("--eval-sample-size", type=int, default=None)
-    parser.add_argument("--model-type", choices=("stacking", "mlp"), default="stacking")
+    parser.add_argument("--model-type", choices=("cspf_transformer",), default="cspf_transformer")
     parser.add_argument("--prob-model-name", default="gpt2")
     parser.add_argument("--device", default=None, help="Computation device, e.g. cpu, cuda, cuda:0, or mps.")
     parser.add_argument("--prob-batch-size", type=int, default=8)
@@ -48,6 +48,7 @@ def parse_args() -> argparse.Namespace:
         default="synonym_substitution,punctuation_strip,sentence_shuffle,character_noise,context_truncation",
     )
     parser.add_argument("--interpretability-samples", type=int, default=3)
+    parser.add_argument("--feature-cache-dir", default=None, help="Directory to cache GPT-2 features across runs.")
     parser.add_argument("--seed", type=int, default=42)
     return parser.parse_args()
 
@@ -60,13 +61,12 @@ def build_pipeline(args: argparse.Namespace, train_texts: list[str]) -> CSPFText
             device=args.device,
             cache_dir=args.hf_cache_dir,
             local_files_only=args.local_files_only,
+            feature_cache_dir=args.feature_cache_dir,
         ),
         context_window=args.context_window,
         use_context=not args.disable_context,
+        model=FeatureTokenTransformerClassifier(device=args.device),
     )
-    if args.model_type == "mlp":
-        feature_dim = len(pipeline.transform(train_texts[:1] or ["placeholder"])[0])
-        pipeline.model = TorchMLPClassifier(input_dim=feature_dim, device=args.device)
     return pipeline
 
 
@@ -88,11 +88,14 @@ def main() -> None:
     args = parse_args()
     set_seed(args.seed)
     args.hf_cache_dir = configure_hf_cache(args.hf_cache_dir)
-    output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    tracker = RunTracker(output_dir)
+    artifact_root = Path(args.output_dir)
+    checkpoint_dir = artifact_root / "checkpoints" / "cspf_feature_transformer"
+    export_dir = artifact_root / "exports"
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    export_dir.mkdir(parents=True, exist_ok=True)
+    tracker = RunTracker(checkpoint_dir)
     tracker.save_json("run_config.json", vars(args), artifact_key="run_config")
-    tracker.log("Initialized training run.", stage="init", extra={"output_dir": str(output_dir)})
+    tracker.log("Initialized training run.", stage="init", extra={"checkpoint_dir": str(checkpoint_dir), "export_dir": str(export_dir)})
 
     try:
         tracker.set_stage("load_train_data")
@@ -226,6 +229,7 @@ def main() -> None:
         tracker.set_stage("finalize")
         tracker.log("Saving final pipeline and metadata.", stage="finalize")
         tracker.save_pickle("pipeline.pkl", pipeline, artifact_key="pipeline_final")
+        tracker.save_pickle("cspf_feature_transformer_pipeline.pkl", pipeline, artifact_key="deployment_pipeline")
 
         metadata = {
             "dataset": args.dataset,
@@ -259,7 +263,9 @@ def main() -> None:
             "interpretability_report": interpretability_report,
         }
         tracker.save_json("metadata.json", metadata, artifact_key="metadata")
-        save_experiment_outputs(output_dir, metadata)
+        export_metadata_path = export_dir / "cspf_feature_transformer_metadata.json"
+        export_metadata_path.write_text(json.dumps(metadata, indent=2, ensure_ascii=False), encoding="utf-8")
+        save_experiment_outputs(export_dir / "cspf_feature_transformer", metadata)
         tracker.complete_stage("finalize")
         tracker.finalize("completed")
         tracker.log("Run completed successfully.", stage="finalize")

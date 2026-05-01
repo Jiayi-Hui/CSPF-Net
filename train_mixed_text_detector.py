@@ -17,7 +17,7 @@ from cspf_text.evaluation import (
     sentence_level_metrics,
 )
 from cspf_text.features import ProbabilisticFeatureExtractor
-from cspf_text.modeling import TorchMLPClassifier
+from cspf_text.modeling import FeatureTokenTransformerClassifier
 from cspf_text.run_tracking import RunTracker
 
 
@@ -31,7 +31,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--context-window", type=int, default=1)
     parser.add_argument("--prob-model-name", default="gpt2")
     parser.add_argument("--prob-batch-size", type=int, default=8)
-    parser.add_argument("--model-type", choices=("stacking", "mlp"), default="stacking")
+    parser.add_argument("--model-type", choices=("cspf_transformer",), default="cspf_transformer")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--hf-cache-dir", default=None)
     parser.add_argument("--output-dir", default="/workspace/CSPF-Net/artifacts/mixed_text_detector")
@@ -68,10 +68,8 @@ def build_pipeline(args: argparse.Namespace, warmup_examples) -> CSPFTextPipelin
             cache_dir=args.hf_cache_dir,
         ),
         context_window=args.context_window,
+        model=FeatureTokenTransformerClassifier(device=args.device),
     )
-    if args.model_type == "mlp":
-        feature_dim = len(pipeline.transform_sentence_examples(warmup_examples[:1] or warmup_examples)[0])
-        pipeline.model = TorchMLPClassifier(input_dim=feature_dim, device=args.device)
     return pipeline
 
 

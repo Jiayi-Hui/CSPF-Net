@@ -2,7 +2,14 @@
 __pycache__/
 *.pyc
 .DS_Store
-artifacts/
+artifacts/*
+!artifacts/checkpoints/
+!artifacts/checkpoints/**
+!artifacts/exports/
+!artifacts/exports/*.json
 hf_cache/
 .hf_cache/
 STAT8307_Group_Project_Multi-Modal_AI_Forensics.docx
+HC3/*.csv
+HC3/advanced_split/
+tmp/
