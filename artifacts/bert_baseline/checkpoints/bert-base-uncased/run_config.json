@@ -1,0 +1,21 @@
+{
+  "dataset": "hc3_reborn",
+  "dataset_id": "HC3/full_split",
+  "train_split": "train",
+  "eval_split": "test",
+  "text_column": null,
+  "label_column": null,
+  "sample_size": null,
+  "eval_sample_size": null,
+  "model_name": "bert-base-uncased",
+  "device": "cuda",
+  "hf_cache_dir": "/workspace/huggingface",
+  "local_files_only": false,
+  "output_dir": "artifacts/bert_baseline",
+  "max_length": 512,
+  "batch_size": 8,
+  "epochs": 3,
+  "learning_rate": 2e-05,
+  "weight_decay": 0.01,
+  "seed": 42
+}

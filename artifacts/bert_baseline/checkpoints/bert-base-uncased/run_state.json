@@ -1,0 +1,37 @@
+{
+  "status": "completed",
+  "current_stage": "finalize",
+  "started_at": "2026-05-01T14:38:16.615475Z",
+  "updated_at": "2026-05-01T14:55:31.605678Z",
+  "completed_stages": [
+    "load_train_data",
+    "tokenizer_and_model",
+    "fit",
+    "evaluation",
+    "finalize"
+  ],
+  "artifacts": {
+    "run_config": "artifacts/bert_baseline/checkpoints/bert-base-uncased/run_config.json",
+    "train_bundle_summary": "artifacts/bert_baseline/checkpoints/bert-base-uncased/train_bundle_summary.json",
+    "eval_bundle_summary": "artifacts/bert_baseline/checkpoints/bert-base-uncased/eval_bundle_summary.json",
+    "metrics": "artifacts/bert_baseline/checkpoints/bert-base-uncased/metrics.json",
+    "metadata": "artifacts/bert_baseline/checkpoints/bert-base-uncased/metadata.json"
+  },
+  "train_bundle_summary": {
+    "text_count": 12000,
+    "label_count": 12000
+  },
+  "resolved_model_device": "cuda",
+  "eval_bundle_summary": {
+    "text_count": 1500,
+    "label_count": 1500
+  },
+  "metrics": {
+    "accuracy": 0.788,
+    "precision": 0.8946759259259259,
+    "recall": 0.773,
+    "f1": 0.8293991416309013,
+    "roc_auc": 0.86442
+  },
+  "completed_at": "2026-05-01T14:55:31.605684Z"
+}
