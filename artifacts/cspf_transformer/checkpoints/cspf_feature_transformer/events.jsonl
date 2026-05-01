@@ -1,0 +1,16 @@
+{"timestamp": "2026-05-01T10:40:32.939895Z", "message": "Initialized training run.", "stage": "init", "extra": {"checkpoint_dir": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer", "export_dir": "artifacts/cspf_transformer/exports"}}
+{"timestamp": "2026-05-01T10:40:32.940169Z", "message": "Loading training dataset.", "stage": "load_train_data"}
+{"timestamp": "2026-05-01T10:40:34.989927Z", "message": "Loaded training dataset.", "stage": "load_train_data", "extra": {"text_count": 12000, "label_count": 12000, "document_count": 12000, "sentence_example_count": 85637}}
+{"timestamp": "2026-05-01T10:40:34.990162Z", "message": "Building pipeline.", "stage": "build_pipeline"}
+{"timestamp": "2026-05-01T10:40:36.531284Z", "message": "Fitting model.", "stage": "fit", "extra": {"train_granularity": "sentence"}}
+{"timestamp": "2026-05-01T12:27:27.761414Z", "message": "Initialized training run.", "stage": "init", "extra": {"checkpoint_dir": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer", "export_dir": "artifacts/cspf_transformer/exports"}}
+{"timestamp": "2026-05-01T12:27:27.761611Z", "message": "Loading training dataset.", "stage": "load_train_data"}
+{"timestamp": "2026-05-01T12:27:29.557554Z", "message": "Loaded training dataset.", "stage": "load_train_data", "extra": {"text_count": 12000, "label_count": 12000, "document_count": 12000, "sentence_example_count": 85637}}
+{"timestamp": "2026-05-01T12:27:29.557812Z", "message": "Building pipeline.", "stage": "build_pipeline"}
+{"timestamp": "2026-05-01T12:27:30.547428Z", "message": "Fitting model.", "stage": "fit", "extra": {"train_granularity": "sentence"}}
+{"timestamp": "2026-05-01T13:23:18.211774Z", "message": "Finished fitting model.", "stage": "fit"}
+{"timestamp": "2026-05-01T13:23:18.212104Z", "message": "Loading evaluation data.", "stage": "evaluation"}
+{"timestamp": "2026-05-01T13:23:18.548848Z", "message": "Running evaluation metrics.", "stage": "evaluation", "extra": {"document_count": 1500, "sentence_example_count": 10750}}
+{"timestamp": "2026-05-01T14:13:36.748689Z", "message": "Finished evaluation.", "stage": "evaluation"}
+{"timestamp": "2026-05-01T14:13:36.748934Z", "message": "Saving final pipeline and metadata.", "stage": "finalize"}
+{"timestamp": "2026-05-01T14:13:39.238357Z", "message": "Run completed successfully.", "stage": "finalize"}

@@ -1,0 +1,34 @@
+{
+  "status": "completed",
+  "current_stage": "finalize",
+  "started_at": "2026-05-01T12:27:27.760832Z",
+  "updated_at": "2026-05-01T14:13:39.238192Z",
+  "completed_stages": [
+    "load_train_data",
+    "build_pipeline",
+    "fit",
+    "evaluation",
+    "finalize"
+  ],
+  "artifacts": {
+    "run_config": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer/run_config.json",
+    "train_bundle_summary": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer/train_bundle_summary.json",
+    "pipeline_after_fit": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer/pipeline_after_fit.pkl",
+    "eval_bundle_summary": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer/eval_bundle_summary.json",
+    "intermediate_metrics": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer/intermediate_metrics.json",
+    "pipeline_final": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer/pipeline.pkl",
+    "deployment_pipeline": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer/cspf_feature_transformer_pipeline.pkl",
+    "metadata": "artifacts/cspf_transformer/checkpoints/cspf_feature_transformer/metadata.json"
+  },
+  "train_bundle_summary": {
+    "text_count": 12000,
+    "label_count": 12000,
+    "document_count": 12000,
+    "sentence_example_count": 85637
+  },
+  "eval_bundle_summary": {
+    "document_count": 1500,
+    "sentence_example_count": 10750
+  },
+  "completed_at": "2026-05-01T14:13:39.238202Z"
+}

@@ -1,0 +1,138 @@
+{
+  "metrics": {
+    "document": {
+      "accuracy": 0.812,
+      "f1": 0.8401360544217688,
+      "precision": 0.9698952879581152,
+      "recall": 0.741,
+      "average_precision": 0.9472231325468555,
+      "roc_auc": 0.873323
+    },
+    "sentence": {
+      "accuracy": 0.8174883720930233,
+      "f1": 0.8427632633434845,
+      "precision": 0.9677894349346585,
+      "recall": 0.7463449254790632,
+      "average_precision": 0.9425840152333462,
+      "roc_auc": 0.8664082546268495
+    }
+  },
+  "coauthorship_metrics": {},
+  "robustness": {
+    "clean": {
+      "accuracy": 0.8174883720930233,
+      "f1": 0.8427632633434845,
+      "precision": 0.9677894349346585,
+      "recall": 0.7463449254790632,
+      "average_precision": 0.9425840152333462,
+      "roc_auc": 0.8664082546268495
+    },
+    "synonym_substitution": {
+      "accuracy": 0.8056744186046512,
+      "f1": 0.8333200351073167,
+      "precision": 0.951530612244898,
+      "recall": 0.7412349183818311,
+      "average_precision": 0.9405882637452363,
+      "roc_auc": 0.8636515594275856,
+      "mean_probability_shift": 0.0188820268958807
+    },
+    "punctuation_strip": {
+      "accuracy": 0.8026046511627907,
+      "f1": 0.8270578647106764,
+      "precision": 0.9711004784688996,
+      "recall": 0.7202271114265436,
+      "average_precision": 0.9381939456699679,
+      "roc_auc": 0.8580315285675565,
+      "mean_probability_shift": 0.026462558656930923
+    },
+    "sentence_shuffle": {
+      "accuracy": 0.8174883720930233,
+      "f1": 0.8427632633434845,
+      "precision": 0.9677894349346585,
+      "recall": 0.7463449254790632,
+      "average_precision": 0.9425840152333462,
+      "roc_auc": 0.8664082546268495,
+      "mean_probability_shift": 0.0
+    },
+    "character_noise": {
+      "accuracy": 0.5962790697674418,
+      "f1": 0.5563279492946228,
+      "precision": 0.9941541834124954,
+      "recall": 0.38623136976579137,
+      "average_precision": 0.9163302054303002,
+      "roc_auc": 0.8226181986056477,
+      "mean_probability_shift": 0.19774818420410156
+    },
+    "context_truncation": {
+      "accuracy": 0.35655813953488374,
+      "f1": 0.047638716783698194,
+      "precision": 0.7935779816513762,
+      "recall": 0.024556422995031937,
+      "average_precision": 0.8819591650391645,
+      "roc_auc": 0.8177149211402694,
+      "mean_probability_shift": 0.2974734306335449
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "context_prob_avg_neg_log_likelihood",
+      "importance": 0.0652343330214652
+    },
+    {
+      "feature": "target_prob_avg_neg_log_likelihood",
+      "importance": 0.03624314937877329
+    },
+    {
+      "feature": "left_prob_first_last_nll_gap",
+      "importance": 0.010277725437457641
+    },
+    {
+      "feature": "right_prob_avg_neg_log_likelihood",
+      "importance": 0.006424549012909397
+    },
+    {
+      "feature": "context_prob_token_nll_max",
+      "importance": 0.002553102996947443
+    },
+    {
+      "feature": "right_prob_first_last_nll_gap",
+      "importance": 0.0024392873642689328
+    },
+    {
+      "feature": "context_style_stopword_ratio",
+      "importance": 0.0022423024488221754
+    },
+    {
+      "feature": "delta_prob_avg_neg_log_likelihood",
+      "importance": 0.0020241326027425344
+    },
+    {
+      "feature": "delta_prob_token_nll_min",
+      "importance": 0.002018902856616378
+    },
+    {
+      "feature": "delta_style_sentence_count",
+      "importance": 0.0017100605350158227
+    },
+    {
+      "feature": "right_style_exclamation_per_sentence",
+      "importance": 0.0017079297928744297
+    },
+    {
+      "feature": "left_prob_perplexity",
+      "importance": 0.001490707696962107
+    },
+    {
+      "feature": "left_prob_token_nll_min",
+      "importance": 0.0014242392549325134
+    },
+    {
+      "feature": "left_style_sentence_len_std",
+      "importance": 0.0013826621981257725
+    },
+    {
+      "feature": "context_prob_token_nll_std",
+      "importance": 0.0012028170853818354
+    }
+  ]
+}

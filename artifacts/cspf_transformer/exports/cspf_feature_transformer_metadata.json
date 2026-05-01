@@ -1,0 +1,975 @@
+{
+  "dataset": "hc3_reborn",
+  "dataset_id": "HC3/full_split",
+  "train_split": "train",
+  "eval_split": "test",
+  "sample_size": null,
+  "eval_sample_size": null,
+  "model_type": "cspf_transformer",
+  "prob_model_name": "gpt2",
+  "device": "cuda",
+  "prob_batch_size": 16,
+  "context_window": 1,
+  "use_context": true,
+  "train_granularity": "sentence",
+  "seed": 42,
+  "hf_cache_dir": "/workspace/huggingface",
+  "local_files_only": false,
+  "feature_count": 160,
+  "feature_names": [
+    "target_style_char_count",
+    "target_style_word_count",
+    "target_style_sentence_count",
+    "target_style_avg_sentence_len",
+    "target_style_avg_word_len",
+    "target_style_lexical_diversity",
+    "target_style_hapax_ratio",
+    "target_style_stopword_ratio",
+    "target_style_long_word_ratio",
+    "target_style_punctuation_ratio",
+    "target_style_digit_ratio",
+    "target_style_uppercase_ratio",
+    "target_style_comma_per_sentence",
+    "target_style_exclamation_per_sentence",
+    "target_style_question_per_sentence",
+    "target_style_noun_ratio",
+    "target_style_verb_ratio",
+    "target_style_adj_ratio",
+    "target_style_adv_ratio",
+    "target_style_sentence_len_std",
+    "target_prob_avg_neg_log_likelihood",
+    "target_prob_perplexity",
+    "target_prob_token_nll_std",
+    "target_prob_token_nll_max",
+    "target_prob_token_nll_min",
+    "target_prob_first_last_nll_gap",
+    "target_cohesion_avg_semantic_drift",
+    "target_cohesion_max_semantic_drift",
+    "target_cohesion_min_semantic_drift",
+    "target_cohesion_std_semantic_drift",
+    "target_cohesion_avg_deletion_ratio",
+    "target_cohesion_length_normalized_drift",
+    "left_style_char_count",
+    "left_style_word_count",
+    "left_style_sentence_count",
+    "left_style_avg_sentence_len",
+    "left_style_avg_word_len",
+    "left_style_lexical_diversity",
+    "left_style_hapax_ratio",
+    "left_style_stopword_ratio",
+    "left_style_long_word_ratio",
+    "left_style_punctuation_ratio",
+    "left_style_digit_ratio",
+    "left_style_uppercase_ratio",
+    "left_style_comma_per_sentence",
+    "left_style_exclamation_per_sentence",
+    "left_style_question_per_sentence",
+    "left_style_noun_ratio",
+    "left_style_verb_ratio",
+    "left_style_adj_ratio",
+    "left_style_adv_ratio",
+    "left_style_sentence_len_std",
+    "left_prob_avg_neg_log_likelihood",
+    "left_prob_perplexity",
+    "left_prob_token_nll_std",
+    "left_prob_token_nll_max",
+    "left_prob_token_nll_min",
+    "left_prob_first_last_nll_gap",
+    "left_cohesion_avg_semantic_drift",
+    "left_cohesion_max_semantic_drift",
+    "left_cohesion_min_semantic_drift",
+    "left_cohesion_std_semantic_drift",
+    "left_cohesion_avg_deletion_ratio",
+    "left_cohesion_length_normalized_drift",
+    "right_style_char_count",
+    "right_style_word_count",
+    "right_style_sentence_count",
+    "right_style_avg_sentence_len",
+    "right_style_avg_word_len",
+    "right_style_lexical_diversity",
+    "right_style_hapax_ratio",
+    "right_style_stopword_ratio",
+    "right_style_long_word_ratio",
+    "right_style_punctuation_ratio",
+    "right_style_digit_ratio",
+    "right_style_uppercase_ratio",
+    "right_style_comma_per_sentence",
+    "right_style_exclamation_per_sentence",
+    "right_style_question_per_sentence",
+    "right_style_noun_ratio",
+    "right_style_verb_ratio",
+    "right_style_adj_ratio",
+    "right_style_adv_ratio",
+    "right_style_sentence_len_std",
+    "right_prob_avg_neg_log_likelihood",
+    "right_prob_perplexity",
+    "right_prob_token_nll_std",
+    "right_prob_token_nll_max",
+    "right_prob_token_nll_min",
+    "right_prob_first_last_nll_gap",
+    "right_cohesion_avg_semantic_drift",
+    "right_cohesion_max_semantic_drift",
+    "right_cohesion_min_semantic_drift",
+    "right_cohesion_std_semantic_drift",
+    "right_cohesion_avg_deletion_ratio",
+    "right_cohesion_length_normalized_drift",
+    "context_style_char_count",
+    "context_style_word_count",
+    "context_style_sentence_count",
+    "context_style_avg_sentence_len",
+    "context_style_avg_word_len",
+    "context_style_lexical_diversity",
+    "context_style_hapax_ratio",
+    "context_style_stopword_ratio",
+    "context_style_long_word_ratio",
+    "context_style_punctuation_ratio",
+    "context_style_digit_ratio",
+    "context_style_uppercase_ratio",
+    "context_style_comma_per_sentence",
+    "context_style_exclamation_per_sentence",
+    "context_style_question_per_sentence",
+    "context_style_noun_ratio",
+    "context_style_verb_ratio",
+    "context_style_adj_ratio",
+    "context_style_adv_ratio",
+    "context_style_sentence_len_std",
+    "context_prob_avg_neg_log_likelihood",
+    "context_prob_perplexity",
+    "context_prob_token_nll_std",
+    "context_prob_token_nll_max",
+    "context_prob_token_nll_min",
+    "context_prob_first_last_nll_gap",
+    "context_cohesion_avg_semantic_drift",
+    "context_cohesion_max_semantic_drift",
+    "context_cohesion_min_semantic_drift",
+    "context_cohesion_std_semantic_drift",
+    "context_cohesion_avg_deletion_ratio",
+    "context_cohesion_length_normalized_drift",
+    "delta_style_char_count",
+    "delta_style_word_count",
+    "delta_style_sentence_count",
+    "delta_style_avg_sentence_len",
+    "delta_style_avg_word_len",
+    "delta_style_lexical_diversity",
+    "delta_style_hapax_ratio",
+    "delta_style_stopword_ratio",
+    "delta_style_long_word_ratio",
+    "delta_style_punctuation_ratio",
+    "delta_style_digit_ratio",
+    "delta_style_uppercase_ratio",
+    "delta_style_comma_per_sentence",
+    "delta_style_exclamation_per_sentence",
+    "delta_style_question_per_sentence",
+    "delta_style_noun_ratio",
+    "delta_style_verb_ratio",
+    "delta_style_adj_ratio",
+    "delta_style_adv_ratio",
+    "delta_style_sentence_len_std",
+    "delta_prob_avg_neg_log_likelihood",
+    "delta_prob_perplexity",
+    "delta_prob_token_nll_std",
+    "delta_prob_token_nll_max",
+    "delta_prob_token_nll_min",
+    "delta_prob_first_last_nll_gap",
+    "delta_cohesion_avg_semantic_drift",
+    "delta_cohesion_max_semantic_drift",
+    "delta_cohesion_min_semantic_drift",
+    "delta_cohesion_std_semantic_drift",
+    "delta_cohesion_avg_deletion_ratio",
+    "delta_cohesion_length_normalized_drift"
+  ],
+  "resolved_prob_device": "cuda",
+  "resolved_model_device": "cuda",
+  "sentence_example_count": 85637,
+  "train_bundle_summary": {
+    "text_count": 12000,
+    "label_count": 12000,
+    "document_count": 12000,
+    "sentence_example_count": 85637
+  },
+  "calibration_sentence_count": 0,
+  "eval_bundle_summary": {
+    "document_count": 1500,
+    "sentence_example_count": 10750
+  },
+  "metrics": {
+    "document": {
+      "accuracy": 0.812,
+      "f1": 0.8401360544217688,
+      "precision": 0.9698952879581152,
+      "recall": 0.741,
+      "average_precision": 0.9472231325468555,
+      "roc_auc": 0.873323
+    },
+    "sentence": {
+      "accuracy": 0.8174883720930233,
+      "f1": 0.8427632633434845,
+      "precision": 0.9677894349346585,
+      "recall": 0.7463449254790632,
+      "average_precision": 0.9425840152333462,
+      "roc_auc": 0.8664082546268495
+    }
+  },
+  "coauthorship_metrics": {},
+  "robustness": {
+    "clean": {
+      "accuracy": 0.8174883720930233,
+      "f1": 0.8427632633434845,
+      "precision": 0.9677894349346585,
+      "recall": 0.7463449254790632,
+      "average_precision": 0.9425840152333462,
+      "roc_auc": 0.8664082546268495
+    },
+    "synonym_substitution": {
+      "accuracy": 0.8056744186046512,
+      "f1": 0.8333200351073167,
+      "precision": 0.951530612244898,
+      "recall": 0.7412349183818311,
+      "average_precision": 0.9405882637452363,
+      "roc_auc": 0.8636515594275856,
+      "mean_probability_shift": 0.0188820268958807
+    },
+    "punctuation_strip": {
+      "accuracy": 0.8026046511627907,
+      "f1": 0.8270578647106764,
+      "precision": 0.9711004784688996,
+      "recall": 0.7202271114265436,
+      "average_precision": 0.9381939456699679,
+      "roc_auc": 0.8580315285675565,
+      "mean_probability_shift": 0.026462558656930923
+    },
+    "sentence_shuffle": {
+      "accuracy": 0.8174883720930233,
+      "f1": 0.8427632633434845,
+      "precision": 0.9677894349346585,
+      "recall": 0.7463449254790632,
+      "average_precision": 0.9425840152333462,
+      "roc_auc": 0.8664082546268495,
+      "mean_probability_shift": 0.0
+    },
+    "character_noise": {
+      "accuracy": 0.5962790697674418,
+      "f1": 0.5563279492946228,
+      "precision": 0.9941541834124954,
+      "recall": 0.38623136976579137,
+      "average_precision": 0.9163302054303002,
+      "roc_auc": 0.8226181986056477,
+      "mean_probability_shift": 0.19774818420410156
+    },
+    "context_truncation": {
+      "accuracy": 0.35655813953488374,
+      "f1": 0.047638716783698194,
+      "precision": 0.7935779816513762,
+      "recall": 0.024556422995031937,
+      "average_precision": 0.8819591650391645,
+      "roc_auc": 0.8177149211402694,
+      "mean_probability_shift": 0.2974734306335449
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "context_prob_avg_neg_log_likelihood",
+      "importance": 0.0652343330214652
+    },
+    {
+      "feature": "target_prob_avg_neg_log_likelihood",
+      "importance": 0.03624314937877329
+    },
+    {
+      "feature": "left_prob_first_last_nll_gap",
+      "importance": 0.010277725437457641
+    },
+    {
+      "feature": "right_prob_avg_neg_log_likelihood",
+      "importance": 0.006424549012909397
+    },
+    {
+      "feature": "context_prob_token_nll_max",
+      "importance": 0.002553102996947443
+    },
+    {
+      "feature": "right_prob_first_last_nll_gap",
+      "importance": 0.0024392873642689328
+    },
+    {
+      "feature": "context_style_stopword_ratio",
+      "importance": 0.0022423024488221754
+    },
+    {
+      "feature": "delta_prob_avg_neg_log_likelihood",
+      "importance": 0.0020241326027425344
+    },
+    {
+      "feature": "delta_prob_token_nll_min",
+      "importance": 0.002018902856616378
+    },
+    {
+      "feature": "delta_style_sentence_count",
+      "importance": 0.0017100605350158227
+    },
+    {
+      "feature": "right_style_exclamation_per_sentence",
+      "importance": 0.0017079297928744297
+    },
+    {
+      "feature": "left_prob_perplexity",
+      "importance": 0.001490707696962107
+    },
+    {
+      "feature": "left_prob_token_nll_min",
+      "importance": 0.0014242392549325134
+    },
+    {
+      "feature": "left_style_sentence_len_std",
+      "importance": 0.0013826621981257725
+    },
+    {
+      "feature": "context_prob_token_nll_std",
+      "importance": 0.0012028170853818354
+    }
+  ],
+  "interpretability_report": [
+    {
+      "document_id": "hc3_reborn-0",
+      "document_probability": 0.616170292099317,
+      "ai_contribution_ratio": 0.6666666666666666,
+      "top_document_features": [
+        {
+          "name": "target_prob_avg_neg_log_likelihood",
+          "value": 3.779880315065384,
+          "contribution": 0.18035200983285904
+        },
+        {
+          "name": "delta_prob_first_last_nll_gap",
+          "value": -7.213694244623184,
+          "contribution": 0.14186859130859375
+        },
+        {
+          "name": "left_prob_first_last_nll_gap",
+          "value": -8.333000756800175,
+          "contribution": 0.1024477481842041
+        },
+        {
+          "name": "context_prob_token_nll_min",
+          "value": 0.0024245171807706356,
+          "contribution": 0.09764474630355835
+        },
+        {
+          "name": "left_prob_avg_neg_log_likelihood",
+          "value": 3.179251511891683,
+          "contribution": 0.09236462910970052
+        }
+      ],
+      "suspicious_sentences": [
+        {
+          "sentence_id": 1,
+          "sentence": "The essence of zero-knowledge proofs is that it is trivial to prove that one possesses knowledge of certain information by simply revealing it; the challenge is to prove such possession without revealing the information itself or any additional information.",
+          "probability": 0.9996015429496765,
+          "top_features": [
+            {
+              "name": "context_prob_avg_neg_log_likelihood",
+              "value": 2.5436553955078125,
+              "contribution": 0.058997511863708496
+            },
+            {
+              "name": "target_prob_avg_neg_log_likelihood",
+              "value": 3.339016914367676,
+              "contribution": 0.0003241300582885742
+            },
+            {
+              "name": "context_prob_token_nll_max",
+              "value": 12.71078109741211,
+              "contribution": 0.00010329484939575195
+            },
+            {
+              "name": "left_prob_token_nll_max",
+              "value": 12.710782051086426,
+              "contribution": 8.052587509155273e-05
+            },
+            {
+              "name": "right_prob_first_last_nll_gap",
+              "value": -10.611447304487228,
+              "contribution": 7.575750350952148e-05
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "it",
+              "importance": 0.00023746490478515625
+            },
+            {
+              "token": "it",
+              "importance": 0.00023746490478515625
+            },
+            {
+              "token": "zero",
+              "importance": 0.0002257823944091797
+            },
+            {
+              "token": "challenge",
+              "importance": 0.00020569562911987305
+            },
+            {
+              "token": "knowledge",
+              "importance": 0.00016450881958007812
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.9996015429496765,
+            "target_only": 0.380198210477829,
+            "without_left_context": 0.9840870499610901,
+            "without_right_context": 0.9996708631515503
+          }
+        },
+        {
+          "sentence_id": 0,
+          "sentence": "In cryptography, a zero-knowledge proof or zero-knowledge protocol is a method by which one party (the prover) can prove to another party (the verifier) that a given statement is true while the prover avoids conveying any additional information apart from the fact that the statement is indeed true.",
+          "probability": 0.998529314994812,
+          "top_features": [
+            {
+              "name": "target_prob_avg_neg_log_likelihood",
+              "value": 2.632664203643799,
+              "contribution": 0.03877443075180054
+            },
+            {
+              "name": "left_prob_avg_neg_log_likelihood",
+              "value": 0.0,
+              "contribution": 0.00727236270904541
+            },
+            {
+              "name": "context_prob_avg_neg_log_likelihood",
+              "value": 3.339016914367676,
+              "contribution": 0.00490039587020874
+            },
+            {
+              "name": "left_prob_token_nll_std",
+              "value": 0.0,
+              "contribution": 0.002099335193634033
+            },
+            {
+              "name": "target_prob_token_nll_max",
+              "value": 12.710782051086426,
+              "contribution": 0.0020146965980529785
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "that",
+              "importance": 0.007003962993621826
+            },
+            {
+              "token": "that",
+              "importance": 0.007003962993621826
+            },
+            {
+              "token": "by",
+              "importance": 0.00669020414352417
+            },
+            {
+              "token": "while",
+              "importance": 0.006505727767944336
+            },
+            {
+              "token": "fact",
+              "importance": 0.006303310394287109
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.998529314994812,
+            "target_only": 0.4098855257034302,
+            "without_left_context": 0.998529314994812,
+            "without_right_context": 0.4098855257034302
+          }
+        },
+        {
+          "sentence_id": 2,
+          "sentence": "If proving a statement requires that the prover possess some secret information, then the verifier will not be able to prove the statement to anyone else without possessing the secret information.",
+          "probability": 0.9246013760566711,
+          "top_features": [
+            {
+              "name": "target_prob_avg_neg_log_likelihood",
+              "value": 3.3583977222442627,
+              "contribution": 0.20794355869293213
+            },
+            {
+              "name": "left_prob_first_last_nll_gap",
+              "value": -8.889927387237549,
+              "contribution": 0.11620008945465088
+            },
+            {
+              "name": "context_prob_avg_neg_log_likelihood",
+              "value": 3.4203169345855713,
+              "contribution": 0.08274984359741211
+            },
+            {
+              "name": "right_prob_avg_neg_log_likelihood",
+              "value": 4.7896728515625,
+              "contribution": 0.04844146966934204
+            },
+            {
+              "name": "context_style_lexical_diversity",
+              "value": 0.6,
+              "contribution": 0.01674365997314453
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "able",
+              "importance": 0.29561787843704224
+            },
+            {
+              "token": "anyone",
+              "importance": 0.28528958559036255
+            },
+            {
+              "token": "be",
+              "importance": 0.27678853273391724
+            },
+            {
+              "token": "possess",
+              "importance": 0.27142804861068726
+            },
+            {
+              "token": "not",
+              "importance": 0.25832992792129517
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.9246013760566711,
+            "target_only": 0.38681235909461975,
+            "without_left_context": 0.5861462354660034,
+            "without_right_context": 0.9914652705192566
+          }
+        }
+      ]
+    },
+    {
+      "document_id": "hc3_reborn-1",
+      "document_probability": 0.9104686602950096,
+      "ai_contribution_ratio": 1.0,
+      "top_document_features": [
+        {
+          "name": "right_prob_avg_neg_log_likelihood",
+          "value": 0.0,
+          "contribution": 0.6009418368339539
+        },
+        {
+          "name": "right_prob_first_last_nll_gap",
+          "value": -6.816938400268555,
+          "contribution": 0.14509791135787964
+        },
+        {
+          "name": "left_prob_avg_neg_log_likelihood",
+          "value": 2.5204689502716064,
+          "contribution": 0.13911020755767822
+        },
+        {
+          "name": "target_style_stopword_ratio",
+          "value": 0.35294117647058826,
+          "contribution": 0.1296026110649109
+        },
+        {
+          "name": "target_style_hapax_ratio",
+          "value": 0.4117647058823529,
+          "contribution": 0.12044614553451538
+        }
+      ],
+      "suspicious_sentences": [
+        {
+          "sentence_id": 5,
+          "sentence": "Instead, clothes washers are designed to use water and detergent to clean clothes, and then spin the clothes to remove excess water.",
+          "probability": 0.9997983574867249,
+          "top_features": [
+            {
+              "name": "context_prob_avg_neg_log_likelihood",
+              "value": 2.9559290409088135,
+              "contribution": 0.004274547100067139
+            },
+            {
+              "name": "left_prob_token_nll_max",
+              "value": 12.723170280456543,
+              "contribution": 6.306171417236328e-05
+            },
+            {
+              "name": "target_prob_token_nll_max",
+              "value": 13.046371459960938,
+              "contribution": 4.267692565917969e-05
+            },
+            {
+              "name": "context_prob_token_nll_max",
+              "value": 12.723154067993164,
+              "contribution": 3.719329833984375e-05
+            },
+            {
+              "name": "right_prob_token_nll_max",
+              "value": 11.225177764892578,
+              "contribution": 2.1338462829589844e-05
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "Instead",
+              "importance": 8.165836334228516e-05
+            },
+            {
+              "token": "detergent",
+              "importance": 7.87973403930664e-05
+            },
+            {
+              "token": "use",
+              "importance": 5.459785461425781e-05
+            },
+            {
+              "token": "excess",
+              "importance": 4.5180320739746094e-05
+            },
+            {
+              "token": ",",
+              "importance": 4.363059997558594e-05
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.9997983574867249,
+            "target_only": 0.36404505372047424,
+            "without_left_context": 0.9932039976119995,
+            "without_right_context": 0.9874902367591858
+          }
+        },
+        {
+          "sentence_id": 3,
+          "sentence": "This process is effective for washing and drying dishes because dishes are typically made of materials that can withstand high temperatures and are not easily damaged by heat.",
+          "probability": 0.9997537732124329,
+          "top_features": [
+            {
+              "name": "context_prob_avg_neg_log_likelihood",
+              "value": 2.8464841842651367,
+              "contribution": 0.039272427558898926
+            },
+            {
+              "name": "target_prob_avg_neg_log_likelihood",
+              "value": 3.237294912338257,
+              "contribution": 0.00017452239990234375
+            },
+            {
+              "name": "target_prob_token_nll_std",
+              "value": 2.253801107406616,
+              "contribution": 4.792213439941406e-05
+            },
+            {
+              "name": "right_prob_token_nll_max",
+              "value": 12.723170280456543,
+              "contribution": 4.7087669372558594e-05
+            },
+            {
+              "name": "left_prob_first_last_nll_gap",
+              "value": -7.7083346247673035,
+              "contribution": 4.1961669921875e-05
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "heat",
+              "importance": 0.10088765621185303
+            },
+            {
+              "token": "drying",
+              "importance": 6.461143493652344e-05
+            },
+            {
+              "token": "because",
+              "importance": 6.282329559326172e-05
+            },
+            {
+              "token": "withstand",
+              "importance": 6.0677528381347656e-05
+            },
+            {
+              "token": "for",
+              "importance": 5.3882598876953125e-05
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.9997537732124329,
+            "target_only": 0.395492285490036,
+            "without_left_context": 0.9972103238105774,
+            "without_right_context": 0.9996479749679565
+          }
+        },
+        {
+          "sentence_id": 6,
+          "sentence": "After the clothes are washed, they need to be dried using a separate appliance, such as a dryer, that uses heat and air circulation to remove moisture from the clothes.",
+          "probability": 0.9995449185371399,
+          "top_features": [
+            {
+              "name": "target_prob_avg_neg_log_likelihood",
+              "value": 2.9134914875030518,
+              "contribution": 0.03522789478302002
+            },
+            {
+              "name": "context_prob_avg_neg_log_likelihood",
+              "value": 3.1741244792938232,
+              "contribution": 0.029132843017578125
+            },
+            {
+              "name": "context_prob_first_last_nll_gap",
+              "value": -1.6717715561389923,
+              "contribution": 0.0012376904487609863
+            },
+            {
+              "name": "context_prob_token_nll_max",
+              "value": 13.046385765075684,
+              "contribution": 0.00040346384048461914
+            },
+            {
+              "name": "target_prob_token_nll_max",
+              "value": 11.225177764892578,
+              "contribution": 0.00036513805389404297
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "heat",
+              "importance": 0.0013259649276733398
+            },
+            {
+              "token": ".",
+              "importance": 0.001287698745727539
+            },
+            {
+              "token": "remove",
+              "importance": 0.0009921789169311523
+            },
+            {
+              "token": "a",
+              "importance": 0.0008938312530517578
+            },
+            {
+              "token": "a",
+              "importance": 0.0008938312530517578
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.9995449185371399,
+            "target_only": 0.37984007596969604,
+            "without_left_context": 0.988452136516571,
+            "without_right_context": 0.9994750618934631
+          }
+        }
+      ]
+    },
+    {
+      "document_id": "hc3_reborn-2",
+      "document_probability": 0.3395856738090515,
+      "ai_contribution_ratio": 0.0,
+      "top_document_features": [
+        {
+          "name": "context_prob_avg_neg_log_likelihood",
+          "value": 4.6038713455200195,
+          "contribution": 0.022874335447947185
+        },
+        {
+          "name": "target_prob_avg_neg_log_likelihood",
+          "value": 5.683923959732056,
+          "contribution": 0.020584747195243835
+        },
+        {
+          "name": "left_style_punctuation_ratio",
+          "value": 0.15,
+          "contribution": 0.014339447021484375
+        },
+        {
+          "name": "left_prob_token_nll_min",
+          "value": 2.7098612785339355,
+          "contribution": 0.01399141550064087
+        },
+        {
+          "name": "left_prob_avg_neg_log_likelihood",
+          "value": 3.0716729164123535,
+          "contribution": 0.010337457060813904
+        }
+      ],
+      "suspicious_sentences": [
+        {
+          "sentence_id": 1,
+          "sentence": "It acts as though it is incompressible for a lot of purposes , though , which is probably where the idea comes from .",
+          "probability": 0.35885828733444214,
+          "top_features": [
+            {
+              "name": "context_prob_avg_neg_log_likelihood",
+              "value": 4.141758918762207,
+              "contribution": 0.04867798089981079
+            },
+            {
+              "name": "left_prob_first_last_nll_gap",
+              "value": -0.1900346279144287,
+              "contribution": 0.016157418489456177
+            },
+            {
+              "name": "left_style_punctuation_ratio",
+              "value": 0.15,
+              "contribution": 0.014339447021484375
+            },
+            {
+              "name": "left_prob_avg_neg_log_likelihood",
+              "value": 6.143345832824707,
+              "contribution": 0.014259159564971924
+            },
+            {
+              "name": "left_prob_token_nll_min",
+              "value": 2.7098612785339355,
+              "contribution": 0.01399141550064087
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "from",
+              "importance": 0.02689191699028015
+            },
+            {
+              "token": "comes",
+              "importance": 0.018682390451431274
+            },
+            {
+              "token": "It",
+              "importance": 0.018656015396118164
+            },
+            {
+              "token": "where",
+              "importance": 0.01286458969116211
+            },
+            {
+              "token": "lot",
+              "importance": 0.011596322059631348
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.3588583171367645,
+            "target_only": 0.36190396547317505,
+            "without_left_context": 0.3796207904815674,
+            "without_right_context": 0.36125653982162476
+          }
+        },
+        {
+          "sentence_id": 0,
+          "sentence": "It is n't , really .",
+          "probability": 0.3391531705856323,
+          "top_features": [
+            {
+              "name": "target_prob_avg_neg_log_likelihood",
+              "value": 6.143345832824707,
+              "contribution": 0.03907105326652527
+            },
+            {
+              "name": "left_prob_first_last_nll_gap",
+              "value": 0.0,
+              "contribution": 0.0075470805168151855
+            },
+            {
+              "name": "delta_prob_token_nll_min",
+              "value": 2.6782053485512733,
+              "contribution": 0.006874352693557739
+            },
+            {
+              "name": "left_prob_avg_neg_log_likelihood",
+              "value": 0.0,
+              "contribution": 0.006415754556655884
+            },
+            {
+              "name": "right_prob_first_last_nll_gap",
+              "value": -7.417489528656006,
+              "contribution": 0.006234526634216309
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "is",
+              "importance": 0.023058444261550903
+            },
+            {
+              "token": "really",
+              "importance": 0.009889960289001465
+            },
+            {
+              "token": ".",
+              "importance": 0.009200453758239746
+            },
+            {
+              "token": ",",
+              "importance": 0.009128302335739136
+            },
+            {
+              "token": "n",
+              "importance": 0.0075871944427490234
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.3391531705856323,
+            "target_only": 0.34581148624420166,
+            "without_left_context": 0.3391531705856323,
+            "without_right_context": 0.34581148624420166
+          }
+        },
+        {
+          "sentence_id": 2,
+          "sentence": "Like other liquids , it is n't easy to compress , but it can be done .",
+          "probability": 0.33600515127182007,
+          "top_features": [
+            {
+              "name": "left_prob_first_last_nll_gap",
+              "value": -7.417489528656006,
+              "contribution": 0.0040360987186431885
+            },
+            {
+              "name": "context_prob_avg_neg_log_likelihood",
+              "value": 4.445353031158447,
+              "contribution": 0.004019021987915039
+            },
+            {
+              "name": "target_style_stopword_ratio",
+              "value": 0.6,
+              "contribution": 0.0014907419681549072
+            },
+            {
+              "name": "delta_prob_first_last_nll_gap",
+              "value": 5.393906116485596,
+              "contribution": 0.0014518201351165771
+            },
+            {
+              "name": "context_prob_first_last_nll_gap",
+              "value": -7.663007736206055,
+              "contribution": 0.0012591183185577393
+            }
+          ],
+          "top_tokens": [
+            {
+              "token": "done",
+              "importance": 0.005557537078857422
+            },
+            {
+              "token": "other",
+              "importance": 0.004969209432601929
+            },
+            {
+              "token": "to",
+              "importance": 0.004631936550140381
+            },
+            {
+              "token": "but",
+              "importance": 0.0035092830657958984
+            },
+            {
+              "token": "n",
+              "importance": 0.003366827964782715
+            }
+          ],
+          "context_effects": {
+            "full_context": 0.33600515127182007,
+            "target_only": 0.3598257899284363,
+            "without_left_context": 0.34993013739585876,
+            "without_right_context": 0.350612074136734
+          }
+        }
+      ]
+    }
+  ]
+}

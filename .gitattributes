@@ -1,1 +1,6 @@
 HC3/full_split/*.csv filter=lfs diff=lfs merge=lfs -text
+artifacts/**/*.pkl filter=lfs diff=lfs merge=lfs -text
+artifacts/**/*.bin filter=lfs diff=lfs merge=lfs -text
+artifacts/**/*.safetensors filter=lfs diff=lfs merge=lfs -text
+artifacts/**/*.pt filter=lfs diff=lfs merge=lfs -text
+artifacts/**/*.ckpt filter=lfs diff=lfs merge=lfs -text
